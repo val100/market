@@ -1,24 +1,35 @@
 package market.controller.frontend;
 
 import market.domain.*;
-import market.dto.*;
-import market.dto.assembler.*;
-import market.exception.*;
-import market.service.*;
-import org.springframework.beans.factory.annotation.*;
-import org.springframework.security.access.annotation.*;
-import org.springframework.stereotype.*;
-import org.springframework.ui.*;
-import org.springframework.validation.*;
-import org.springframework.web.bind.annotation.*;
+import market.dto.ContactsDTO;
+import market.dto.CreditCardDTO;
+import market.dto.ProductDTO;
+import market.dto.assembler.ContactsDtoAssembler;
+import market.dto.assembler.OrderDtoAssembler;
+import market.dto.assembler.ProductDtoAssembler;
+import market.dto.assembler.UserAccountDtoAssembler;
+import market.exception.EmptyCartException;
+import market.service.CartService;
+import market.service.ContactsService;
+import market.service.OrderService;
+import market.service.UserAccountService;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttributes;
 
-import javax.servlet.http.*;
-import javax.validation.*;
-import java.security.*;
-import java.util.*;
-import java.util.function.*;
+import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
+import java.security.Principal;
+import java.util.Map;
+import java.util.function.Function;
 
-import static java.util.stream.Collectors.*;
+import static java.util.stream.Collectors.toMap;
 
 /**
  * Checkout steps controller.
@@ -37,27 +48,21 @@ public class CheckoutController {
 	private final ContactsService contactsService;
 	private final OrderService orderService;
 	private final CartService cartService;
-	private final OrderDtoAssembler orderDtoAssembler;
-	private final ContactsDtoAssembler contactsDtoAssembler;
-	private final UserAccountDtoAssembler userDtoAssembler;
-	private final ProductDtoAssembler productDtoAssembler;
+	private final OrderDtoAssembler orderDtoAssembler = new OrderDtoAssembler();
+	private final ContactsDtoAssembler contactsDtoAssembler = new ContactsDtoAssembler();
+	private final UserAccountDtoAssembler userDtoAssembler = new UserAccountDtoAssembler();
+	private final ProductDtoAssembler productDtoAssembler = new ProductDtoAssembler();
 
 	@Value("${deliveryCost}")
 	private int deliveryCost;
 
 	public CheckoutController(UserAccountService userAccountService, ContactsService contactsService,
-		OrderService orderService, CartService cartService, OrderDtoAssembler orderDtoAssembler,
-		ContactsDtoAssembler contactsDtoAssembler, UserAccountDtoAssembler userDtoAssembler,
-		ProductDtoAssembler productDtoAssembler)
+		OrderService orderService, CartService cartService)
 	{
 		this.userAccountService = userAccountService;
 		this.contactsService = contactsService;
 		this.orderService = orderService;
 		this.cartService = cartService;
-		this.orderDtoAssembler = orderDtoAssembler;
-		this.contactsDtoAssembler = contactsDtoAssembler;
-		this.userDtoAssembler = userDtoAssembler;
-		this.productDtoAssembler = productDtoAssembler;
 	}
 
 	//--------------------------------------------- Changing contacts

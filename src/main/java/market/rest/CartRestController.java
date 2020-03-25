@@ -30,19 +30,16 @@ import java.security.Principal;
 public class CartRestController {
 	private final CartService cartService;
 	private final OrderService orderService;
-	private final CartDtoAssembler cartDtoAssembler;
-	private final OrderDtoAssembler orderDtoAssembler;
+	private final CartDtoAssembler cartDtoAssembler = new CartDtoAssembler();
+	private final OrderDtoAssembler orderDtoAssembler = new OrderDtoAssembler();
 
 	@Value("${deliveryCost}")
 	private int deliveryCost;
 
-	public CartRestController(CartService cartService, OrderService orderService,
-		CartDtoAssembler cartDtoAssembler, OrderDtoAssembler orderDtoAssembler)
+	public CartRestController(CartService cartService, OrderService orderService)
 	{
 		this.cartService = cartService;
 		this.orderService = orderService;
-		this.cartDtoAssembler = cartDtoAssembler;
-		this.orderDtoAssembler = orderDtoAssembler;
 	}
 
 	/**

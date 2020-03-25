@@ -27,11 +27,10 @@ public class RegionController {
 	private static final String REGIONS_EDIT = REGIONS_BASE + "/edit";
 
 	private final RegionService regionService;
-	private final RegionDtoAssembler regionDTOAssembler;
+	private final RegionDtoAssembler regionDTOAssembler = new RegionDtoAssembler();
 
-	public RegionController(RegionService regionService, RegionDtoAssembler regionDTOAssembler) {
+	public RegionController(RegionService regionService) {
 		this.regionService = regionService;
-		this.regionDTOAssembler = regionDTOAssembler;
 	}
 
 	@RequestMapping(method = RequestMethod.GET)

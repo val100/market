@@ -43,20 +43,17 @@ public class CustomerController {
 	private final OrderService orderService;
 	private final ProductService productService;
 	private final AuthenticationService authenticationService;
-	private final UserAccountDtoAssembler userAccountDtoAssembler;
-	private final CartDtoAssembler cartDtoAssembler;
+	private final UserAccountDtoAssembler userAccountDtoAssembler = new UserAccountDtoAssembler();
+	private final CartDtoAssembler cartDtoAssembler = new CartDtoAssembler();
 
 	public CustomerController(UserAccountService userAccountService, OrderService orderService,
-		AuthenticationService authenticationService, CartService cartService, ProductService productService,
-		UserAccountDtoAssembler userAccountDtoAssembler, CartDtoAssembler cartDtoAssembler)
+		AuthenticationService authenticationService, CartService cartService, ProductService productService)
 	{
 		this.userAccountService = userAccountService;
 		this.orderService = orderService;
 		this.authenticationService = authenticationService;
 		this.cartService = cartService;
 		this.productService = productService;
-		this.userAccountDtoAssembler = userAccountDtoAssembler;
-		this.cartDtoAssembler = cartDtoAssembler;
 	}
 
 	@Secured({"ROLE_USER"})

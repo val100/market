@@ -38,19 +38,16 @@ public class CartController {
 
 	private final CartService cartService;
 	private final ProductService productService;
-	private final CartDtoAssembler cartDtoAssembler;
-	private final ProductDtoAssembler productDtoAssembler;
+	private final CartDtoAssembler cartDtoAssembler = new CartDtoAssembler();
+	private final ProductDtoAssembler productDtoAssembler = new ProductDtoAssembler();
 
 	@Value("${deliveryCost}")
 	private int deliveryCost;
 
-	public CartController(CartService cartService, ProductService productService, CartDtoAssembler cartDtoAssembler,
-		ProductDtoAssembler productDtoAssembler)
+	public CartController(CartService cartService, ProductService productService)
 	{
 		this.cartService = cartService;
 		this.productService = productService;
-		this.cartDtoAssembler = cartDtoAssembler;
-		this.productDtoAssembler = productDtoAssembler;
 	}
 
 	@RequestMapping(method = RequestMethod.GET)
