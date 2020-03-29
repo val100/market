@@ -5,10 +5,7 @@ import org.hibernate.annotations.Parameter;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 /**
  * Cart of the {@link UserAccount}.
@@ -51,21 +48,26 @@ public class Cart implements Serializable {
 		return cartItems.isEmpty();
 	}
 
-	public void update(Product product, int newQuantity) {
+	public CartItem update(Product product, int newQuantity) {
 		if (product == null)
-			return;
+			return null;
 
+		CartItem updatedItem = null;
 		if (newQuantity > 0) {
 			CartItem existingItem = findItem(product.getId());
 			if (existingItem == null) {
-				cartItems.add(new CartItem(this, product, newQuantity));
+				CartItem newItem = new CartItem(this, product, newQuantity);
+				cartItems.add(newItem);
+				updatedItem = newItem;
 			} else {
 				existingItem.setQuantity(newQuantity);
+				updatedItem = existingItem;
 			}
 		} else {
 			removeItem(product.getId());
 		}
 		itemsCost = calculateItemsCost();
+		return updatedItem;
 	}
 
 	private void removeItem(long productId) {
@@ -113,7 +115,7 @@ public class Cart implements Serializable {
 	}
 
 	public List<CartItem> getCartItems() {
-		return cartItems;
+		return Collections.unmodifiableList(cartItems);
 	}
 
 	public void setCartItems(List<CartItem> cartItems) {

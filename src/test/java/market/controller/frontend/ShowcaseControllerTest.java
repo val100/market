@@ -12,10 +12,8 @@ import market.service.RegionService;
 import market.util.FixturesFactory;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
-import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.domain.Page;
@@ -38,7 +36,6 @@ import static org.mockito.Mockito.any;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-@ExtendWith(MockitoExtension.class)
 @WebMvcTest(controllers = ShowcaseController.class)
 public class ShowcaseControllerTest {
 	private final RegionDtoAssembler regionDtoAssembler = new RegionDtoAssembler();
@@ -53,7 +50,7 @@ public class ShowcaseControllerTest {
 	private DistilleryService distilleryService;
 
 	@Captor
-	ArgumentCaptor<PageRequest> pageableCaptor;
+	private ArgumentCaptor<PageRequest> pageableCaptor;
 
 	private MockMvc mockMvc;
 
@@ -129,9 +126,9 @@ public class ShowcaseControllerTest {
 					hasProperty("content", containsInRelativeOrder(productAssembler.toDtoArray(page.getContent())))
 				)
 			));
-		PageRequest pageable = pageableCaptor.getValue();
-		assertThat(request.getPageNumber(), equalTo(pageable.getPageNumber()));
-		assertThat(request.getPageSize(), equalTo(pageable.getPageSize()));
+		PageRequest captured = pageableCaptor.getValue();
+		assertThat(captured.getPageNumber(), equalTo(request.getPageNumber()));
+		assertThat(captured.getPageSize(), equalTo(request.getPageSize()));
 	}
 
 	/**
@@ -168,9 +165,9 @@ public class ShowcaseControllerTest {
 					hasProperty("content", containsInRelativeOrder(productAssembler.toDtoArray(page.getContent())))
 				)
 			));
-		PageRequest pageable = pageableCaptor.getValue();
-		assertThat(request.getPageNumber(), equalTo(pageable.getPageNumber()));
-		assertThat(request.getPageSize(), equalTo(pageable.getPageSize()));
+		PageRequest captured = pageableCaptor.getValue();
+		assertThat(captured.getPageNumber(), equalTo(request.getPageNumber()));
+		assertThat(captured.getPageSize(), equalTo(request.getPageSize()));
 	}
 
 	/**
@@ -207,10 +204,10 @@ public class ShowcaseControllerTest {
 					hasProperty("content", containsInRelativeOrder(productAssembler.toDtoArray(page.getContent())))
 				)
 			));
-		PageRequest pageable = pageableCaptor.getValue();
-		assertThat(request.getPageNumber(), equalTo(pageable.getPageNumber()));
-		assertThat(request.getPageSize(), equalTo(pageable.getPageSize()));
-		assertThat(Sort.by(Sort.Direction.ASC, sortBy), equalTo(pageable.getSort()));
+		PageRequest captured = pageableCaptor.getValue();
+		assertThat(captured.getPageNumber(), equalTo(request.getPageNumber()));
+		assertThat(captured.getPageSize(), equalTo(request.getPageSize()));
+		assertThat(captured.getSort(), equalTo(Sort.by(Sort.Direction.ASC, sortBy)));
 	}
 
 	/**
@@ -248,10 +245,10 @@ public class ShowcaseControllerTest {
 					hasProperty("content", containsInRelativeOrder(productAssembler.toDtoArray(page.getContent())))
 				)
 			));
-		PageRequest pageable = pageableCaptor.getValue();
-		assertThat(request.getPageNumber(), equalTo(pageable.getPageNumber()));
-		assertThat(request.getPageSize(), equalTo(pageable.getPageSize()));
-		assertThat(Sort.by(Sort.Direction.ASC, sortBy), equalTo(pageable.getSort()));
+		PageRequest captured = pageableCaptor.getValue();
+		assertThat(captured.getPageNumber(), equalTo(request.getPageNumber()));
+		assertThat(captured.getPageSize(), equalTo(request.getPageSize()));
+		assertThat(captured.getSort(), equalTo(Sort.by(Sort.Direction.ASC, sortBy)));
 	}
 
 	/**
@@ -288,9 +285,9 @@ public class ShowcaseControllerTest {
 					hasProperty("content", containsInRelativeOrder(productAssembler.toDtoArray(page.getContent())))
 				)
 			));
-		PageRequest pageable = pageableCaptor.getValue();
-		assertThat(request.getPageNumber(), equalTo(pageable.getPageNumber()));
-		assertThat(request.getPageSize(), equalTo(pageable.getPageSize()));
-		assertThat(Sort.by(Sort.Direction.ASC, sortBy), equalTo(pageable.getSort()));
+		PageRequest captured = pageableCaptor.getValue();
+		assertThat(captured.getPageNumber(), equalTo(request.getPageNumber()));
+		assertThat(captured.getPageSize(), equalTo(request.getPageSize()));
+		assertThat(captured.getSort(), equalTo(Sort.by(Sort.Direction.ASC, sortBy)));
 	}
 }

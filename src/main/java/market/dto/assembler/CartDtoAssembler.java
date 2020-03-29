@@ -51,7 +51,7 @@ public class CartDtoAssembler extends RepresentationModelAssemblerSupport<Cart, 
 		return dto;
 	}
 
-	private CartItemDTO toCartItemDto(CartItem cartItem) {
+	public CartItemDTO toCartItemDto(CartItem cartItem) {
 		CartItemDTO dto = new CartItemDTO();
 		dto.setProductId(cartItem.getProduct().getId());
 		dto.setQuantity(cartItem.getQuantity());

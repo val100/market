@@ -2,7 +2,7 @@ package market.controller.frontend;
 
 import market.domain.Region;
 import market.dto.assembler.RegionDtoAssembler;
-import market.service.impl.RegionServiceImpl;
+import market.service.RegionService;
 import market.util.FixturesFactory;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -25,7 +25,7 @@ public class FrontendControllerTest {
 	private final RegionDtoAssembler regionDtoAssembler = new RegionDtoAssembler();
 
 	@MockBean
-	private RegionServiceImpl regionService;
+	private RegionService regionService;
 
 	private MockMvc mockMvc;
 	private Region region;
